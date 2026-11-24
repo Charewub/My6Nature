@@ -29,4 +29,4 @@ app.post('/lookup', async (req,res) => {
 });
 const site = path.join(__dirname,'site');
 app.use(express.static(site));
-exports.sixNatureResults = onRequest({region:'asia-southeast1',maxInstances:5,invoker:'public'},app);
+exports.sixNatureResults = onRequest({cors:['https://charewub.github.io'],region:'asia-southeast1',maxInstances:5,invoker:'public'},app);
