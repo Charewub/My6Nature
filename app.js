@@ -18,14 +18,14 @@ document.querySelector('form').onsubmit=async event=>{
  el('loading').hidden=false;
  el('notice').textContent='';
  try{
-  const [response,palette]=await Promise.all([fetch('lookup',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:el('email').value.trim()})}),fetch('groups.json')]);
+  const [response,palette]=await Promise.all([fetch(location.origin === 'https://charewub.github.io' ? 'https://asia-southeast1-st90-eef97.cloudfunctions.net/sixNatureResults/lookup' : 'lookup',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:el('email').value.trim()})}),fetch('groups.json')]);
   if(!response.ok||!palette.ok)throw Error();
   results=await response.json();groups=await palette.json();
   if(!results.length){el('notice').textContent='ไม่พบผลประเมิน กรุณาตรวจสอบอีเมลที่ใช้ตอบแบบประเมิน';return}
   el('history').replaceChildren(...results.map((r,i)=>new Option(formatDate(r.time)+' · ครั้งที่ '+(results.length-i),i)));
   el('history').hidden=results.length<2;show(0);
   el('entry').hidden=true;el('result').hidden=false;window.scrollTo(0,0);
- }catch{el('notice').textContent='โหลดผลไม่สำเร็จ กรุณาตรวจสอบอินเทอร์เน็ตแล้วลองอีกครั้ง'}
+ }catch{el('notice').textContent='ติดต่อระบบค้นหาผลไม่ได้ กรุณาลองใหม่หรือติดต่อผู้จัดกิจกรรม'}
  finally{el('loading').hidden=true}
 };
 el('history').onchange=()=>show(Number(el('history').value));
